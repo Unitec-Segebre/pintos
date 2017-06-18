@@ -952,6 +952,8 @@ void printThreadInfo(struct thread *t, void* aux)
   if(t->tid == *((int*)aux)){
     printf("ID: %d\n", t->tid);
     printf("Priority: %d\n", t->priority);
+    printf("Run Count: %d\n", t->run_count);
+    printf("Wait Count: %d\n", t->wait_count);
   }
 
 }

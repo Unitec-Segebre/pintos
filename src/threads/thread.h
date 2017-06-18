@@ -104,6 +104,9 @@ struct thread
     struct lock *waiting_lock;          /* The lock object on which this thread is waiting (or NULL if not locked) */
     struct list locks;                  /* List of locks the thread holds (for multiple donations) */
 
+    int wait_count;                     /* Cantidad de veces que entro a waiting */
+    int run_count;                      /* Cantidad de veces que entro a running */
+
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */

@@ -108,6 +108,7 @@ thread_init (void)
   initial_thread = running_thread ();
   init_thread (initial_thread, "main", PRI_DEFAULT);
   initial_thread->status = THREAD_RUNNING;
+  initial_thread->run_count = initial_thread->run_count + 1;
   initial_thread->tid = allocate_tid ();
   initial_thread->sleep_endtick = 0; // a dummy value
 }
@@ -287,6 +288,7 @@ thread_block (void)
   ASSERT (!intr_context ());
   ASSERT (intr_get_level () == INTR_OFF);
 
+  thread_current ()->wait_count = thread_current ()->wait_count + 1;
   thread_current ()->status = THREAD_BLOCKED;
   schedule ();
 }
@@ -590,6 +592,7 @@ init_thread (struct thread *t, const char *name, int priority)
 
   memset (t, 0, sizeof *t);
   t->status = THREAD_BLOCKED;
+  t->wait_count = 1;
   strlcpy (t->name, name, sizeof t->name);
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
@@ -667,6 +670,7 @@ thread_schedule_tail (struct thread *prev)
 
   /* Mark us as running. */
   cur->status = THREAD_RUNNING;
+  cur->run_count = cur->run_count + 1;
 
   /* Start new time slice. */
   thread_ticks = 0;
