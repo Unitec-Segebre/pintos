@@ -7,7 +7,7 @@
 /* Projecto de SISO */
 struct threadToPrint
 {
-  int pid;
+  int tid;
   int priority;
   int run_count;
   int wait_count;
@@ -55,6 +55,6 @@ bool isdir (int fd);
 int inumber (int fd);
 
 /* Project SISO */
-int getthreadinfo(int pid, struct threadToPrint* threadinfo);
+int getthreadinfo(int tid, struct threadToPrint* threadinfo);
 
 #endif /* lib/user/syscall.h */
