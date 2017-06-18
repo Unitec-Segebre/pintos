@@ -942,15 +942,18 @@ int sys_inumber(int fd)
 int sys_threadinfo(int fd)
 {
   enum intr_level oldlevel = intr_disable ();
-  thread_foreach(printThreadInfo, NULL);
+  thread_foreach(printThreadInfo, (void*)&fd);
   intr_set_level (oldlevel);
   return 1;
 }
 
 void printThreadInfo(struct thread *t, void* aux)
 {
-  printf("ID: %d\n", t->tid);
-  printf("Priority: %d\n", t->priority);
+  if(t->tid == *((int*)aux)){
+    printf("ID: %d\n", t->tid);
+    printf("Priority: %d\n", t->priority);
+  }
+
 }
 
 // #endif
