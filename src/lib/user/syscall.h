@@ -4,6 +4,15 @@
 #include <stdbool.h>
 #include <debug.h>
 
+/* Projecto de SISO */
+struct threadToPrint
+{
+  int pid;
+  int priority;
+  int run_count;
+  int wait_count;
+};
+
 /* Process identifier. */
 typedef int pid_t;
 #define PID_ERROR ((pid_t) -1)
@@ -46,6 +55,6 @@ bool isdir (int fd);
 int inumber (int fd);
 
 /* Project SISO */
-int threadinfo(int pid);
+int getthreadinfo(int pid);
 
 #endif /* lib/user/syscall.h */

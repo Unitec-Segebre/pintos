@@ -184,7 +184,7 @@ inumber (int fd)
 }
 
 int
-threadinfo (int pid) 
+getthreadinfo (int pid) 
 {
-  return syscall1 (SYS_THREADINFO, pid);
+  return syscall1 (SYS_GETTHREADINFO, pid);
 }

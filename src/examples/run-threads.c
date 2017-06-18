@@ -4,6 +4,7 @@
 int main(int argc, char const *argv[])
 {
   printf("Hello!\n");
-  threadinfo(1);
+  struct threadToPrint;
+  getthreadinfo(1);
   return 0;
 }

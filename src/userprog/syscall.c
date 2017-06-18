@@ -51,7 +51,7 @@ void sys_close(int fd);
 int sys_read(int fd, void *buffer, unsigned size);
 int sys_write(int fd, const void *buffer, unsigned size);
 
-int threadinfo(int pid);
+int getthreadinfo(int pid);
 void printThreadInfo(struct thread *t, void* aux);
 
 #ifdef VM
@@ -344,13 +344,13 @@ syscall_handler (struct intr_frame *f)
 
 #endif
 // #ifdef PROJECTSISO
-  case SYS_THREADINFO: // 20
+  case SYS_GETTHREADINFO: // 20
     {
       int fd;
       int return_code;
 
       memread_user(f->esp + 4, &fd, sizeof(fd));
-      return_code = sys_threadinfo(fd);
+      return_code = sys_getthreadinfo(fd);
       f->eax = return_code;
       break;
     }
@@ -939,7 +939,7 @@ int sys_inumber(int fd)
 
 // #ifdef PROJECTSISO
 
-int sys_threadinfo(int fd)
+int sys_getthreadinfo(int fd)
 {
   enum intr_level oldlevel = intr_disable ();
   thread_foreach(printThreadInfo, (void*)&fd);

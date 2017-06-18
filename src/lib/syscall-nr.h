@@ -31,7 +31,7 @@ enum
     SYS_INUMBER,                /* Returns the inode number for a fd. */
 
     /*Proyect SISO */
-    SYS_THREADINFO              /* Returns a thread wait count, run count, and priority. */
+    SYS_GETTHREADINFO              /* Returns a thread wait count, run count, and priority. */
   };
 
 #endif /* lib/syscall-nr.h */
