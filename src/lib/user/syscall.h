@@ -55,6 +55,6 @@ bool isdir (int fd);
 int inumber (int fd);
 
 /* Project SISO */
-int getthreadinfo(int pid);
+int getthreadinfo(int pid, struct threadToPrint* threadinfo);
 
 #endif /* lib/user/syscall.h */

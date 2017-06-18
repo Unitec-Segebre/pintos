@@ -184,7 +184,7 @@ inumber (int fd)
 }
 
 int
-getthreadinfo (int pid) 
+getthreadinfo (int pid, struct threadToPrint* threadinfo) 
 {
-  return syscall1 (SYS_GETTHREADINFO, pid);
+  return syscall2 (SYS_GETTHREADINFO, pid, threadinfo);
 }

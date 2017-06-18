@@ -347,10 +347,12 @@ syscall_handler (struct intr_frame *f)
   case SYS_GETTHREADINFO: // 20
     {
       int fd;
+      struct threadToPrint* threadinfo;
       int return_code;
 
       memread_user(f->esp + 4, &fd, sizeof(fd));
-      return_code = sys_getthreadinfo(fd);
+      memread_user(f->esp + 8, &threadinfo, sizeof(struct threadToPrint*));
+      return_code = sys_getthreadinfo(fd, threadinfo);
       f->eax = return_code;
       break;
     }
@@ -939,7 +941,7 @@ int sys_inumber(int fd)
 
 // #ifdef PROJECTSISO
 
-int sys_getthreadinfo(int fd)
+int sys_getthreadinfo(int fd, struct threadToPrint* threadinfo)
 {
   enum intr_level oldlevel = intr_disable ();
   thread_foreach(printThreadInfo, (void*)&fd);
