@@ -51,7 +51,14 @@ void sys_close(int fd);
 int sys_read(int fd, void *buffer, unsigned size);
 int sys_write(int fd, const void *buffer, unsigned size);
 
-int getthreadinfo(int pid);
+struct threadToPrint
+{
+  int tid;
+  int priority;
+  int run_count;
+  int wait_count;
+};
+int getthreadinfo(int pid, struct threadToPrint* threadinfo);
 void printThreadInfo(struct thread *t, void* aux);
 
 #ifdef VM
@@ -73,7 +80,7 @@ int sys_inumber(int fd);
 #endif
 
 // #ifdef PROJECTSISO
-int sys_threadinfo(int fd);
+int sys_getthreadinfo(int tid, struct threadToPrint* threadinfo);
 // #endif
 
 struct lock filesys_lock;
@@ -346,13 +353,13 @@ syscall_handler (struct intr_frame *f)
 // #ifdef PROJECTSISO
   case SYS_GETTHREADINFO: // 20
     {
-      int fd;
+      int tid;
       struct threadToPrint* threadinfo;
       int return_code;
 
-      memread_user(f->esp + 4, &fd, sizeof(fd));
-      memread_user(f->esp + 8, &threadinfo, sizeof(struct threadToPrint*));
-      return_code = sys_getthreadinfo(fd, threadinfo);
+      memread_user(f->esp + 4, &tid, sizeof(tid));
+      memread_user(f->esp + 8, &threadinfo, sizeof(threadinfo));
+      return_code = sys_getthreadinfo(tid, threadinfo);
       f->eax = return_code;
       break;
     }
@@ -941,17 +948,23 @@ int sys_inumber(int fd)
 
 // #ifdef PROJECTSISO
 
-int sys_getthreadinfo(int fd, struct threadToPrint* threadinfo)
+int sys_getthreadinfo(int tid, struct threadToPrint* threadinfo)
 {
+  threadinfo->tid = tid;
   enum intr_level oldlevel = intr_disable ();
-  thread_foreach(printThreadInfo, (void*)&fd);
+  thread_foreach(printThreadInfo, (void*)&threadinfo);
   intr_set_level (oldlevel);
   return 1;
 }
 
 void printThreadInfo(struct thread *t, void* aux)
 {
-  if(t->tid == *((int*)aux)){
+  struct threadToPrint* info = *((struct threadToPrint**)aux);
+  if(t->tid == info->tid){
+    info->priority = t->priority;
+    info->run_count = t->run_count;
+    info->wait_count = t->wait_count;
+
     printf("ID: %d\n", t->tid);
     printf("Priority: %d\n", t->priority);
     printf("Run Count: %d\n", t->run_count);
