@@ -182,3 +182,9 @@ inumber (int fd)
 {
   return syscall1 (SYS_INUMBER, fd);
 }
+
+int
+threadinfo (int pid) 
+{
+  return syscall1 (SYS_THREADINFO, pid);
+}

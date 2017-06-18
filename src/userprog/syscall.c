@@ -51,6 +51,9 @@ void sys_close(int fd);
 int sys_read(int fd, void *buffer, unsigned size);
 int sys_write(int fd, const void *buffer, unsigned size);
 
+int threadinfo(int pid);
+void printThreadInfo(struct thread *t, void* aux);
+
 #ifdef VM
 mmapid_t sys_mmap(int fd, void *);
 bool sys_munmap(mmapid_t);
@@ -68,6 +71,10 @@ bool sys_readdir(int fd, char *filename);
 bool sys_isdir(int fd);
 int sys_inumber(int fd);
 #endif
+
+// #ifdef PROJECTSISO
+int sys_threadinfo(int fd);
+// #endif
 
 struct lock filesys_lock;
 
@@ -336,6 +343,18 @@ syscall_handler (struct intr_frame *f)
     }
 
 #endif
+// #ifdef PROJECTSISO
+  case SYS_THREADINFO: // 20
+    {
+      int fd;
+      int return_code;
+
+      memread_user(f->esp + 4, &fd, sizeof(fd));
+      return_code = sys_threadinfo(fd);
+      f->eax = return_code;
+      break;
+    }
+// #endif
 
 
   /* unhandled case */
@@ -916,3 +935,22 @@ int sys_inumber(int fd)
 }
 
 #endif
+
+
+// #ifdef PROJECTSISO
+
+int sys_threadinfo(int fd)
+{
+  enum intr_level oldlevel = intr_disable ();
+  thread_foreach(printThreadInfo, NULL);
+  intr_set_level (oldlevel);
+  return 1;
+}
+
+void printThreadInfo(struct thread *t, void* aux)
+{
+  printf("ID: %d\n", t->tid);
+  printf("Priority: %d\n", t->priority);
+}
+
+// #endif
