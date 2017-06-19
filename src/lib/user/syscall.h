@@ -11,6 +11,7 @@ struct threadToPrint
   int priority;
   int run_count;
   int wait_count;
+  int isPrint;
 };
 
 /* Process identifier. */

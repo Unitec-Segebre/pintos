@@ -21,7 +21,10 @@ int main(int argc, char const *argv[])
   while(!isDone[bubsort]){
     if(!isDone[bubsort])
       isDone[bubsort] = getthreadinfo(pid_bubblesort, &threadinfo[bubsort]);
-    printf("TID: %d, Priority = %d, Run Count = %d, Wait Count = %d\n", threadinfo[bubsort].tid, threadinfo[bubsort].priority, threadinfo[bubsort].run_count, threadinfo[bubsort].wait_count);
+    if(threadinfo[bubsort].isPrint){
+      printf("TID: %d, Priority = %d, Run Count = %d, Wait Count = %d\n", threadinfo[bubsort].tid, threadinfo[bubsort].priority, threadinfo[bubsort].run_count, threadinfo[bubsort].wait_count);
+      threadinfo[bubsort].isPrint = 0;
+    }
   }
   wait(pid_bubblesort);
 

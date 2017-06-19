@@ -57,6 +57,7 @@ struct threadToPrint
   int priority;
   int run_count;
   int wait_count;
+  int isPrint;
 };
 int getthreadinfo(int pid, struct threadToPrint* threadinfo);
 void printThreadInfo(struct thread *t, void* aux);
@@ -966,6 +967,8 @@ void printThreadInfo(struct thread *t, void* aux)
     info->priority = t->priority;
     info->run_count = t->run_count;
     info->wait_count = t->wait_count;
+    info->isPrint = t->isPrint;
+    t->isPrint = 0;
 
     /*printf("ID: %d\n", t->tid);
     printf("Priority: %d\n", t->priority);

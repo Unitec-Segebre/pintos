@@ -106,6 +106,7 @@ struct thread
 
     int wait_count;                     /* Cantidad de veces que entro a waiting */
     int run_count;                      /* Cantidad de veces que entro a running */
+    int isPrint;                          /* Flag para imprimir */
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
