@@ -954,7 +954,9 @@ int sys_getthreadinfo(int tid, struct threadToPrint* threadinfo)
   enum intr_level oldlevel = intr_disable ();
   thread_foreach(printThreadInfo, (void*)&threadinfo);
   intr_set_level (oldlevel);
-  return (threadinfo->tid==-1)?1:0;
+  int temp = threadinfo->tid;
+  threadinfo->tid = tid;
+  return (temp==-1)?1:0;
 }
 
 void printThreadInfo(struct thread *t, void* aux)
