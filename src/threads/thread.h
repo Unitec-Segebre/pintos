@@ -181,4 +181,7 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
+// Siso Project
+int get_last_thread_tid (void);
+
 #endif /* threads/thread.h */

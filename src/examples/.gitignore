@@ -20,4 +20,4 @@ recursor
 *.o
 *.a
 
-run-threads
+run-programs

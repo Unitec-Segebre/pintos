@@ -424,6 +424,13 @@ thread_foreach (thread_action_func *func, void *aux)
     }
 }
 
+/* Siso Project gets tid of last thread in list */
+int
+get_last_thread_tid (void)
+{
+  return (list_entry (list_prev(list_tail (&all_list)), struct thread, allelem))->tid;
+}
+
 
 /* Sets the current thread's priority to NEW_PRIORITY when a donation
    was not performed. */
