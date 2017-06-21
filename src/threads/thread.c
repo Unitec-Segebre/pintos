@@ -109,6 +109,7 @@ thread_init (void)
   init_thread (initial_thread, "main", PRI_DEFAULT);
   initial_thread->status = THREAD_RUNNING;
   initial_thread->run_count = initial_thread->run_count + 1;
+  // initial_thread->wait_count = 0;
   initial_thread->isPrint = 1;
   initial_thread->tid = allocate_tid ();
   initial_thread->sleep_endtick = 0; // a dummy value
@@ -601,6 +602,7 @@ init_thread (struct thread *t, const char *name, int priority)
 
   memset (t, 0, sizeof *t);
   t->status = THREAD_BLOCKED;
+  t->run_count = 0;
   t->wait_count = 1;
   t->isPrint = 1;
   strlcpy (t->name, name, sizeof t->name);

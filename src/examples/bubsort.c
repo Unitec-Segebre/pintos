@@ -7,11 +7,9 @@
    Ideally, we could read the unsorted array off of the file
    system, and store the result back to the file system! */
 #include <stdio.h>
-// #include <syscall.h>
-// #include "threads/thread.h"
 
 /* Size of array to sort. */
-#define SORT_SIZE 25000
+#define SORT_SIZE 16800
 
 int
 main (void)
@@ -35,8 +33,6 @@ main (void)
 	  array[j + 1] = tmp;
 	}
 
-  printf("Sort of %d numbers complete!\n", SORT_SIZE);
-  // printf ("sort exiting with code %d\n", array[0]);
-  
+  printf ("sort exiting with code %d\n", array[0]);
   return array[0];
 }

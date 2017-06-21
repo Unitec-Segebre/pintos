@@ -21,3 +21,4 @@ recursor
 *.a
 
 run-programs
+run-hi
